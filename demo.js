@@ -140,6 +140,13 @@ $(document).ready(function () {
             });
         }
     });
+    $('#hist').change(function () {
+      if (cwg) {
+          cwg.update({
+            histmod: $('#hist').prop('checked')
+          });
+      }
+    });
     $('#download-button').click(function () {
         if (cwg) {
             var $ul = $('#download-panel').find('ul');
@@ -17400,4 +17407,3 @@ var newcounties = [{"label": "Autauga County, AL", "value": "01001"}, {
     "label": "Washakie County, WY",
     "value": "56043"
 }, {"label": "Weston County, WY", "value": "56045"}];
-

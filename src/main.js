@@ -1605,13 +1605,16 @@
             getCountyBBox(this.options.fips)
               .then(function (bbox) {
                 return $.when.apply($, [
-                  getHistoricalObservedData(obj, bbox),
+                  // TODO: uncomment once we get Livneh
+                  //getHistoricalObservedData(obj, bbox),
                   // $.ajax({url: obj.data_urls.hist_mod, dataType: 'text'}),
                   getHistoricalModelData(obj, bbox),
                   getProjectedModelData(obj, bbox)
                 ])
               })
-              .then(function (hist_obs_data, hist_mod_data, proj_mod_data) {
+              // TODO: use this version instead once we have Livneh
+              //.then(function (hist_obs_data, hist_mod_data, proj_mod_data) {
+              .then(function (hist_mod_data, proj_mod_data) {
                 hideSpinner(obj.$div);
 
                 // var hist_mod_data = string_to_data(hist_mod[0]);
@@ -1619,32 +1622,39 @@
 
                 var convfunc = variable_config(obj.options.variable).dataconverters[obj.options.unitsystem];
                 if (obj.options.variable != 'heating_degree_day_18.3' && obj.options.variable != 'cooling_degree_day_18.3') {
-                  hist_obs_data = transform_data(hist_obs_data, convfunc);
+                  // TODO: use this version instead once we have Livneh
+                  //hist_obs_data = transform_data(hist_obs_data, convfunc);
                 }
 
                 // hist_mod_data = transform_data(hist_mod_data, convfunc);
                 // proj_mod_data = transform_data(proj_mod_data, convfunc);
 
-                var avg = average(hist_obs_data, 1981, 2010);
+                // TODO: use this version instead once we have Livneh
+                //var avg = average(hist_obs_data, 1981, 2010);
                 if (obj.options.presentation === "anomaly") {
                   if (obj.options.variable === "pr") {
-                    hist_obs_data = percent_anomalies(hist_obs_data, avg);
+                    // TODO: use this version instead once we have Livneh
+                    //hist_obs_data = percent_anomalies(hist_obs_data, avg);
                     hist_mod_data = percent_anomalies(hist_mod_data, avg);
                     proj_mod_data = percent_anomalies(proj_mod_data, avg);
                   } else {
-                    hist_obs_data = anomalies(hist_obs_data, avg);
+                    // TODO: use this version instead once we have Livneh
+                    //hist_obs_data = anomalies(hist_obs_data, avg);
                     hist_mod_data = anomalies(hist_mod_data, avg);
                     proj_mod_data = anomalies(proj_mod_data, avg);
                   }
                 }
 
-                var range = scale_range(datas_range([hist_obs_data, hist_mod_data, proj_mod_data]), yAxisRangeScaleFactor);
+                // TODO: use this version instead once we have Livneh
+                //var range = scale_range(datas_range([hist_obs_data, hist_mod_data, proj_mod_data]), yAxisRangeScaleFactor);
+                var range = scale_range(datas_range([hist_mod_data, proj_mod_data]), yAxisRangeScaleFactor);
                 obj.axes.y.setDataRange(range.min, range.max);
                 obj.axes.y.title().content().string(
                   variable_config(obj.options.variable).ytitles.annual[obj.options.presentation][obj.options.unitsystem]
                 );
 
-                obj.data.annual_hist_obs.array(convertArray(attr_list_array(obj.data.annual_hist_obs.columns()), hist_obs_data));
+                // TODO: uncomment once we have Livneh
+                //obj.data.annual_hist_obs.array(convertArray(attr_list_array(obj.data.annual_hist_obs.columns()), hist_obs_data));
                 obj.data.annual_hist_mod.array(convertArray(attr_list_array(obj.data.annual_hist_mod.columns()), hist_mod_data));
                 obj.data.annual_proj_mod.array(convertArray(attr_list_array(obj.data.annual_proj_mod.columns()), proj_mod_data));
 
@@ -1655,7 +1665,10 @@
                   // at which the bars are based ("barbase" plot option), as well as the level
                   // that determines the colors of the bars ("min"/"max" property of the "fillcolor"
                   // option -- above this level is red, below it is green).
-                  var ref = avg;
+
+                  // TODO: use this version instead once we have Livneh
+                  //var ref = avg;
+                  var ref = 0;
                   if (obj.options.presentation === "anomaly") {
                     if (obj.options.variable === "pr") {
                       ref = 100;
@@ -1695,20 +1708,27 @@
             getCountyBBox(this.options.fips)
               .then(function (bbox) {
                 return $.when.apply($, [
-                  getHistoricalObservedData(obj, bbox),
+                  // TODO: uncomment once we get Livneh
+                  //getHistoricalObservedData(obj, bbox),
                   getProjectedModelData(obj, bbox)
                   // $.ajax({url: obj.data_urls.proj_mod, dataType: 'text'})
                 ])
-              }).done(function (hist_obs_data, proj_mod_data) {
+                // TODO: use this version instead once we have Livneh
+                //}).done(function (hist_obs_data, proj_mod_data) {
+              }).done(function (proj_mod_data) {
               hideSpinner(obj.$div);
               // var proj_mod_data = string_to_data(proj_mod[0]);
               var convfunc = variable_config(obj.options.variable).dataconverters[obj.options.unitsystem];
-              hist_obs_data = transform_data(hist_obs_data, convfunc);
+              // TODO: use this version instead once we have Livneh
+              //hist_obs_data = transform_data(hist_obs_data, convfunc);
               proj_mod_data = transform_data(proj_mod_data, convfunc);
-              var range = scale_range(datas_range([hist_obs_data, proj_mod_data]), yAxisRangeScaleFactor);
+              // TODO: use this version instead once we have Livneh
+              //var range = scale_range(datas_range([hist_obs_data, proj_mod_data]), yAxisRangeScaleFactor);
+              var range = scale_range(datas_range([proj_mod_data]), yAxisRangeScaleFactor);
               obj.axes.y.setDataRange(range.min, range.max);
               obj.axes.y.title().content().string(variable_config(obj.options.variable).ytitles.monthly[obj.options.unitsystem]);
-              obj.data.monthly_hist_obs.array(convertArray(attr_list_array(obj.data.monthly_hist_obs.columns()), hist_obs_data));
+              // TODO: use this version instead once we have Livneh
+              //obj.data.monthly_hist_obs.array(convertArray(attr_list_array(obj.data.monthly_hist_obs.columns()), hist_obs_data));
               obj.data.monthly_proj_mod.array(convertArray(attr_list_array(obj.data.monthly_proj_mod.columns()), proj_mod_data));
               set_plot_visibilities(obj);
               obj.m.render();
@@ -1728,21 +1748,29 @@
             };
             showSpinner(obj.$div);
             $.when.apply($, [
-              getHistoricalObservedData(obj),
+              // TODO: uncomment once we get Livneh
+              //getHistoricalObservedData(obj),
               $.ajax({url: obj.data_urls.proj_mod, dataType: 'text'})
-            ]).done(function (hist_obs_data, proj_mod) {
+            // TODO: use this version instead once we have Livneh
+            //]).done(function (hist_obs_data, proj_mod) {
+            ]).done(function (proj_mod) {
               hideSpinner(obj.$div);
               var proj_mod_data = string_to_data(proj_mod[0]);
               // The incoming data has month values 1,4,7,10.  Here we replace these with the values 0,1,2,3:
-              hist_obs_data.forEach(function (v) { v[0] = Math.floor(v[0] / 3); });
+              // TODO: use this version instead once we have Livneh
+              //hist_obs_data.forEach(function (v) { v[0] = Math.floor(v[0] / 3); });
               proj_mod_data.forEach(function (v) { v[0] = Math.floor(v[0] / 3); });
               var convfunc = variable_config(obj.options.variable).dataconverters[obj.options.unitsystem];
-              hist_obs_data = transform_data(hist_obs_data, convfunc);
+              // TODO: use this version instead once we have Livneh
+              //hist_obs_data = transform_data(hist_obs_data, convfunc);
               proj_mod_data = transform_data(proj_mod_data, convfunc);
-              var range = scale_range(datas_range([hist_obs_data, proj_mod_data]), yAxisRangeScaleFactor);
+              // TODO: use this version instead once we have Livneh
+              //var range = scale_range(datas_range([hist_obs_data, proj_mod_data]), yAxisRangeScaleFactor);
+              var range = scale_range(datas_range([proj_mod_data]), yAxisRangeScaleFactor);
               obj.axes.y.setDataRange(range.min, range.max);
               obj.axes.y.title().content().string(variable_config(obj.options.variable).ytitles.seasonal[obj.options.unitsystem]);
-              obj.data.seasonal_hist_obs.array(convertArray(attr_list_array(obj.data.seasonal_hist_obs.columns()), hist_obs_data));
+              // TODO: use this version instead once we have Livneh
+              //obj.data.seasonal_hist_obs.array(convertArray(attr_list_array(obj.data.seasonal_hist_obs.columns()), hist_obs_data));
               obj.data.seasonal_proj_mod.array(convertArray(attr_list_array(obj.data.seasonal_proj_mod.columns()), proj_mod_data));
               set_plot_visibilities(obj);
               obj.m.render();

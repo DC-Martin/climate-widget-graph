@@ -126,6 +126,10 @@
             border-color: #4b93ff;
             background-color: rgba(75, 147, 255, 0.31);
         }
+        .buttons-wrapper > input[type=checkbox]:checked + label[for=hist] {
+            border-color: #gray;
+            background-color: rgba(211, 211, 211, 0.31);
+        }
         #download-panel {
             position: absolute;
             width: 100%;
@@ -287,8 +291,12 @@
               class="center">X-axis panning and zooming only enabled for annual frequency</span>
         <div id="slider-range"></div>
         <div class="buttons-wrapper">
+            <input type="checkbox" name="hist" id="hist" checked>
+            <label for="hist" class="btn"><i class="fa fa-area-chart" aria-hidden="true"></i>Modeled History</label>
+            <!--
             <span class="btn" style="background-color: #d3d3d3;"><i class="fa fa-area-chart" aria-hidden="true"></i>Modeled History</span>
             <span class="btn" style="background-color: #ffffff;"><i class="fa fa-bar-chart" aria-hidden="true"></i>Observed History</span>
+            -->
             <input type="checkbox" name="rcp85" id="rcp85" checked>
             <label for="rcp85" class="btn"><i class="fa fa-area-chart" aria-hidden="true"></i>RCP 8.5</label>
             <input type="checkbox" name="rcp45" id="rcp45" checked>

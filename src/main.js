@@ -834,10 +834,10 @@
           if (value === null) {
             return
           }
-          if (value < min) {
+          if (value < min || (value != null && min == null)) {
             min = value;
           }
-          if (value > max) {
+          if (value > max || (value != null && max == null)) {
             max = value;
           }
         });
@@ -852,8 +852,8 @@
     var r = (range.max - range.min) / 2;
     var c = (range.max + range.min) / 2;
     return {
-      min: c - r * factor,
-      max: c + r * factor
+      min: (c - r * factor),
+      max: (c + r * factor)
     };
   }
 
